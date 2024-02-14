@@ -49,3 +49,42 @@ class Expense {
     return formatter.format(date);
   }
 }
+
+/// Represents a bucket of expenses for a specific category.
+class ExpenseBucket {
+  /// Creates a new instance of [ExpenseBucket].
+  ///
+  /// The [category] parameter is the category of the expenses in the bucket.
+  /// The [expenses] parameter is the list of expenses in the bucket.
+  const ExpenseBucket({
+    required this.category,
+    required this.expenses,
+  });
+
+  /// Creates an [ExpenseBucket] for a specific category.
+  ///
+  /// The [ExpenseBucket] is created by filtering the [allExpenses] list
+  /// based on the provided [category]. Only the expenses with a matching
+  /// category are included in the [expenses] list of the [ExpenseBucket].
+  ///
+  /// - [allExpenses]: The list of all expenses.
+  /// - [category]: The category to filter the expenses by.
+  ExpenseBucket.forCategory(List<Expense> allExpenses, this.category)
+      : expenses = allExpenses
+            .where((expense) => expense.category == category)
+            .toList();
+
+  final Category category;
+  final List<Expense> expenses;
+
+  /// Calculates the total expenses in the bucket.
+  ///
+  /// Returns the sum of all the expenses amount.
+  double get totalExpenses {
+    double sum = 0;
+    for (final expense in expenses) {
+      sum += expense.amount;
+    }
+    return sum;
+  }
+}
